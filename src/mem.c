@@ -99,7 +99,7 @@ static bool blocks_continuous (
 /*  освободить всю память, выделенную под кучу */
 void heap_term() {
   struct block_header* cur_block = (struct block_header*)HEAP_START;
-  block_size cur_size = size_from_capacity(cur_block->capacity);
+  block_size cur_size = (block_size){0};
   struct block_header* cur_region = (struct block_header*) HEAP_START;
   while (cur_block) {
     cur_size.bytes += size_from_capacity(cur_block->capacity).bytes;
