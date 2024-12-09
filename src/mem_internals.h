@@ -15,7 +15,7 @@ inline bool region_is_invalid( const struct region* r ) { return r->addr == NULL
 typedef struct { size_t bytes; } block_capacity;
 typedef struct { size_t bytes; } block_size;
 
-struct block_header {
+struct __attribute__((packed)) block_header {
   struct block_header*    next;
   block_capacity capacity;
   bool           is_free;
