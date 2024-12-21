@@ -97,7 +97,7 @@ static bool blocks_continuous (
   return (void*)snd == block_after(fst);
 }
 /*  освободить всю память, выделенную под кучу */
-#define MUNMAP_ERR -1
+#define MUNMAP_ERR (-1)
 void heap_term() {
   struct block_header* cur_block = (struct block_header*)HEAP_START;
   block_size cur_size = (block_size){0};

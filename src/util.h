@@ -1,7 +1,7 @@
 #ifndef _UTIL_H_
 #define _UTIL_H_
 
-#define ERRCODE_MUNMAP_FAILED 3
+#define ERRCODE_MUNMAP_FAILED (3)
 
 #include <stddef.h>
 
