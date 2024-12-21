@@ -97,6 +97,7 @@ static bool blocks_continuous (
   return (void*)snd == block_after(fst);
 }
 /*  освободить всю память, выделенную под кучу */
+#define MUNMAP_ERR -1
 void heap_term() {
   struct block_header* cur_block = (struct block_header*)HEAP_START;
   block_size cur_size = (block_size){0};
@@ -105,7 +106,7 @@ void heap_term() {
     cur_size.bytes += size_from_capacity(cur_block->capacity).bytes;
     if (!blocks_continuous(cur_block, cur_block->next)) {
       struct block_header* next = cur_block->next;
-      munmap(cur_region, cur_size.bytes);
+      if(munmap(cur_region, cur_size.bytes)==MUNMAP_ERR) exit(ERRCODE_MUNMAP_FAILED);
       cur_region = next;
       cur_size.bytes = 0;
       cur_block = next;
@@ -167,7 +168,7 @@ static struct block_header* grow_heap( struct block_header* restrict last, size_
   struct region region = alloc_region(block_after(last),query);
   if(region_is_invalid(&region))return NULL;
   last->next = region.addr;
-  if(try_merge_with_next(last))return last;
+  if(region.extends && try_merge_with_next(last))return last;
   return region.addr;
 }
 
